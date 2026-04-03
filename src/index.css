@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-boba-base text-boba-cream font-body;
+    overflow: hidden;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2C2317 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-boba-border rounded-full;
+  }
+}
+
+@layer components {
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-boba-muted font-heading text-sm font-medium
+           transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .nav-item:hover {
+    @apply text-boba-cream bg-boba-elevated;
+  }
+
+  .nav-item.active {
+    @apply text-boba-cream bg-boba-elevated;
+    box-shadow: inset 0 0 0 1px rgba(201, 148, 58, 0.2);
+  }
+
+  .nav-item.active .nav-icon {
+    @apply text-boba-gold;
+  }
+
+  .stat-card {
+    @apply bg-boba-surface rounded-2xl p-5 border border-boba-border transition-all duration-300;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  .stat-card:hover {
+    @apply border-boba-subtle;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    transform: translateY(-1px);
+  }
+
+  .chart-placeholder {
+    @apply relative overflow-hidden rounded-2xl border border-boba-border bg-boba-surface;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-medium;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-boba-gold text-boba-base
+           font-heading font-semibold text-sm transition-all duration-200 hover:brightness-110
+           active:scale-95 cursor-pointer;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-boba-border
+           text-boba-muted font-heading font-medium text-sm transition-all duration-200
+           hover:text-boba-cream hover:border-boba-subtle cursor-pointer;
+  }
+
+  .table-row {
+    @apply border-b border-boba-border/60 transition-colors duration-150;
+  }
+
+  .table-row:hover {
+    @apply bg-boba-elevated/50;
+  }
+
+  .section-label {
+    @apply text-xs font-mono font-medium tracking-[0.12em] uppercase text-boba-muted;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+
+  .opacity-0-init { opacity: 0; }
+}
