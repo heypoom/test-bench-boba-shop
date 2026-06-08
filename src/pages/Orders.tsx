@@ -1,30 +1,6 @@
-import { Search, Filter, Download, ArrowRight } from 'lucide-react'
-import { recentOrders } from '../data/mockData'
-import ChartPlaceholder  from '../components/ChartPlaceholder'
-import type { Order, OrderStatus } from '../types'
-
-interface StatusConfig { label: string; color: string }
-
-const statusConfig: Record<OrderStatus, StatusConfig> = {
-  completed: { label: 'Completed', color: 'text-boba-teal  bg-boba-teal/10'  },
-  preparing: { label: 'Preparing', color: 'text-boba-gold  bg-boba-gold/10'  },
-  cancelled: { label: 'Cancelled', color: 'text-boba-rose  bg-boba-rose/10'  },
-  refunded:  { label: 'Refunded',  color: 'text-boba-muted bg-boba-elevated' },
-}
-
-const extraOrders: Order[] = [
-  { id: 10472, franchise: 'Telegraph Ave',  customer: 'Lucas Tran',     items: 2, total: 14.50, status: 'completed', date: '2026-04-02T12:10:00' },
-  { id: 10471, franchise: 'Santana Row',    customer: 'Yuki Nakamura',  items: 3, total: 21.00, status: 'completed', date: '2026-04-02T11:55:00' },
-  { id: 10470, franchise: 'Hayes Valley',   customer: 'Amara Osei',     items: 2, total: 13.00, status: 'preparing', date: '2026-04-02T11:40:00' },
-  { id: 10469, franchise: 'Temescal',       customer: 'Sasha Moreno',   items: 1, total: 7.00,  status: 'completed', date: '2026-04-02T11:22:00' },
-  { id: 10468, franchise: 'University Ave', customer: 'Jin Park',       items: 4, total: 28.00, status: 'completed', date: '2026-04-02T11:05:00' },
-]
-
-const allOrders: Order[] = [...recentOrders, ...extraOrders]
-
-function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
-}
+import { Search, Filter, Download } from 'lucide-react'
+import ChartPlaceholder from '../components/ChartPlaceholder'
+import Skeleton from '../components/Skeleton'
 
 export default function Orders() {
   return (
@@ -67,34 +43,24 @@ export default function Orders() {
                 </tr>
               </thead>
               <tbody>
-                {allOrders.map(order => {
-                  const cfg = statusConfig[order.status]
-                  return (
-                    <tr key={order.id} className="table-row group">
-                      <td className="px-6 py-3.5 font-mono text-boba-muted text-xs">#{order.id}</td>
-                      <td className="px-6 py-3.5 text-boba-cream text-xs">{order.franchise}</td>
-                      <td className="px-6 py-3.5 text-boba-cream text-xs">{order.customer}</td>
-                      <td className="px-6 py-3.5 font-mono text-boba-muted text-xs">{order.items}</td>
-                      <td className="px-6 py-3.5 font-mono font-medium text-boba-cream text-xs">${order.total.toFixed(2)}</td>
-                      <td className="px-6 py-3.5">
-                        <span className={`badge ${cfg.color}`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
-                          {cfg.label}
-                        </span>
-                      </td>
-                      <td className="px-6 py-3.5 font-mono text-boba-subtle text-xs">{formatTime(order.date)}</td>
-                      <td className="px-6 py-3.5">
-                        <ArrowRight size={12} className="text-boba-subtle opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </td>
-                    </tr>
-                  )
-                })}
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <tr key={i} className="table-row group">
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-12" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-24" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-24" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-8" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-14" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-5 w-20 rounded-full" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-14" /></td>
+                    <td className="px-6 py-3.5" />
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
           <div className="px-6 py-3 border-t border-boba-border flex items-center justify-between">
-            <span className="text-boba-subtle text-xs font-mono">Showing {allOrders.length} of 12,847 orders</span>
+            <Skeleton className="h-3 w-40" />
             <button className="text-boba-gold text-xs font-mono hover:text-boba-cream transition-colors">Load more →</button>
           </div>
         </div>

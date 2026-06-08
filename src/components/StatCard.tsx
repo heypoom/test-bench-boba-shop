@@ -1,27 +1,14 @@
-import { TrendingUp, TrendingDown } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import Skeleton from './Skeleton'
 
 interface StatCardProps {
-  label:   string
-  value:   number
-  change:  number
-  prefix?: string
-  suffix?: string
-  icon?:   LucideIcon
-  delay?:  number
+  label:  string
+  icon?:  LucideIcon
+  delay?: number
 }
 
-export default function StatCard({
-  label,
-  value,
-  change,
-  prefix = '',
-  suffix = '',
-  icon: Icon,
-  delay  = 0,
-}: StatCardProps) {
-  const isPositive = change >= 0
-  const animDelay  = `${delay}ms`
+export default function StatCard({ label, icon: Icon, delay = 0 }: StatCardProps) {
+  const animDelay = `${delay}ms`
 
   return (
     <div
@@ -38,23 +25,8 @@ export default function StatCard({
       </div>
 
       <div className="flex items-end justify-between">
-        <span className="font-display text-3xl font-bold text-boba-cream leading-none tracking-tight">
-          {prefix}
-          {value >= 1000 ? value.toLocaleString() : value}
-          {suffix}
-        </span>
-
-        <div className={`flex items-center gap-1 text-xs font-mono font-medium px-2 py-1 rounded-lg ${
-          isPositive
-            ? 'text-boba-teal bg-boba-teal/10'
-            : 'text-boba-rose bg-boba-rose/10'
-        }`}>
-          {isPositive
-            ? <TrendingUp   size={11} strokeWidth={2} />
-            : <TrendingDown size={11} strokeWidth={2} />
-          }
-          {isPositive ? '+' : ''}{change}%
-        </div>
+        <Skeleton className="h-8 w-20" />
+        <Skeleton className="h-6 w-14" />
       </div>
 
       <p className="text-boba-subtle text-xs font-mono mt-2">vs. last month</p>

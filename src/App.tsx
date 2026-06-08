@@ -107,8 +107,8 @@ export default function App() {
             <span className="ml-auto text-xs font-mono text-boba-teal font-medium">Operational</span>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-boba-subtle">
-            <span>6 franchises active</span>
-            <span>Last sync 2m ago</span>
+            <span>Syncing…</span>
+            <span>Last sync —</span>
           </div>
         </div>
 
@@ -147,7 +147,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-boba-border bg-boba-elevated text-xs font-mono text-boba-muted">
               <Circle size={6} className="text-boba-teal fill-boba-teal" />
-              Apr 2, 2026
+              {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </div>
             <button className="relative w-9 h-9 rounded-xl border border-boba-border bg-boba-elevated flex items-center justify-center hover:border-boba-subtle transition-colors">
               <Bell size={15} className="text-boba-muted" strokeWidth={1.8} />

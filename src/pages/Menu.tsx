@@ -1,18 +1,8 @@
-import { Plus, Search, ToggleLeft, ToggleRight } from 'lucide-react'
-import { menuItems } from '../data/mockData'
-import ChartPlaceholder  from '../components/ChartPlaceholder'
+import { Plus, Search } from 'lucide-react'
+import ChartPlaceholder from '../components/ChartPlaceholder'
+import Skeleton from '../components/Skeleton'
 
-const categoryColors: Record<string, string> = {
-  'Milk Tea':  'text-boba-gold  bg-boba-gold/10',
-  'Signature': 'text-boba-amber bg-boba-amber/10',
-  'Latte':     'text-boba-teal  bg-boba-teal/10',
-  'Smoothie':  'text-boba-green bg-boba-green/10',
-  'Fruit Tea': 'text-purple-400 bg-purple-400/10',
-  'Tea':       'text-sky-400    bg-sky-400/10',
-  'Coffee':    'text-orange-400 bg-orange-400/10',
-}
-
-const categories = ['All', ...new Set(menuItems.map(i => i.category))]
+const categories = ['All', 'Milk Tea', 'Signature', 'Latte', 'Smoothie', 'Fruit Tea', 'Tea', 'Coffee']
 
 export default function Menu() {
   return (
@@ -53,49 +43,27 @@ export default function Menu() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-          {menuItems.map(item => (
+          {Array.from({ length: 9 }).map((_, i) => (
             <div
-              key={item.id}
-              className="bg-boba-surface rounded-2xl border border-boba-border p-5 hover:border-boba-subtle transition-all duration-200 group cursor-pointer"
+              key={i}
+              className="bg-boba-surface rounded-2xl border border-boba-border p-5"
             >
               <div className="flex items-start justify-between mb-3">
-                <span className={`badge ${categoryColors[item.category] ?? 'text-boba-muted bg-boba-elevated'}`}>
-                  {item.category}
-                </span>
-                <button className={`transition-colors ${item.is_available ? 'text-boba-teal' : 'text-boba-rose'}`}>
-                  {item.is_available
-                    ? <ToggleRight size={20} strokeWidth={1.5} />
-                    : <ToggleLeft  size={20} strokeWidth={1.5} />
-                  }
-                </button>
+                <Skeleton className="h-5 w-20 rounded-full" />
+                <Skeleton className="h-5 w-5 rounded-full" />
               </div>
 
-              <h4 className="font-heading font-semibold text-boba-cream text-sm mb-1 group-hover:text-white transition-colors">
-                {item.name}
-              </h4>
+              <Skeleton className="h-4 w-32 mb-1" />
 
               <div className="flex items-end justify-between mt-3">
-                <span className="font-display text-xl font-bold text-boba-cream">${item.price.toFixed(2)}</span>
-                <div className="text-right">
-                  <p className="font-mono text-boba-gold text-xs font-medium">
-                    {item.orders_30d > 0 ? item.orders_30d.toLocaleString() : '—'} orders
-                  </p>
-                  <p className="font-mono text-boba-subtle text-[10px]">this month</p>
+                <Skeleton className="h-6 w-12" />
+                <div className="text-right space-y-1.5">
+                  <Skeleton className="h-3 w-16 ml-auto" />
+                  <Skeleton className="h-2.5 w-10 ml-auto" />
                 </div>
               </div>
 
-              {item.orders_30d > 0 && (
-                <div className="mt-3 h-1 bg-boba-border rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-boba-gold to-boba-amber rounded-full"
-                    style={{ width: `${Math.min((item.orders_30d / 2200) * 100, 100)}%` }}
-                  />
-                </div>
-              )}
-
-              {!item.is_available && (
-                <p className="mt-2 text-[10px] font-mono text-boba-rose/70">Unavailable</p>
-              )}
+              <Skeleton className="mt-3 h-1 w-full" />
             </div>
           ))}
         </div>

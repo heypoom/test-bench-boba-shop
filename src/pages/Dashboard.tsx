@@ -7,74 +7,17 @@ import {
 } from "lucide-react";
 import StatCard from "../components/StatCard";
 import ChartPlaceholder from "../components/ChartPlaceholder";
-import { kpiData, recentOrders } from "../data/mockData";
-import type { OrderStatus } from "../types";
-
-interface StatusConfig {
-  label: string;
-  color: string;
-}
-
-const statusConfig: Record<OrderStatus, StatusConfig> = {
-  completed: { label: "Completed", color: "text-boba-teal  bg-boba-teal/10" },
-  preparing: { label: "Preparing", color: "text-boba-gold  bg-boba-gold/10" },
-  cancelled: { label: "Cancelled", color: "text-boba-rose  bg-boba-rose/10" },
-  refunded: { label: "Refunded", color: "text-boba-muted bg-boba-elevated" },
-};
-
-function OrderStatusBadge({ status }: { status: OrderStatus }) {
-  const cfg = statusConfig[status];
-  return (
-    <span className={`badge ${cfg.color}`}>
-      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
-      {cfg.label}
-    </span>
-  );
-}
-
-function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
+import Skeleton from "../components/Skeleton";
 
 export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* ── KPI Row ───────────────────────────────────────── */}
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard
-          label="Monthly Revenue"
-          value={241300}
-          change={kpiData.revenue.change}
-          prefix="$"
-          icon={DollarSign}
-          delay={0}
-        />
-        <StatCard
-          label="Orders This Month"
-          value={kpiData.orders.value}
-          change={kpiData.orders.change}
-          icon={ShoppingBag}
-          delay={80}
-        />
-        <StatCard
-          label="Active Customers"
-          value={kpiData.customers.value}
-          change={kpiData.customers.change}
-          icon={Users}
-          delay={160}
-        />
-        <StatCard
-          label="Avg. Order Value"
-          value={kpiData.avg_order.value}
-          change={kpiData.avg_order.change}
-          prefix="$"
-          icon={Receipt}
-          delay={240}
-        />
+        <StatCard label="Monthly Revenue" icon={DollarSign} delay={0} />
+        <StatCard label="Orders This Month" icon={ShoppingBag} delay={80} />
+        <StatCard label="Active Customers" icon={Users} delay={160} />
+        <StatCard label="Avg. Order Value" icon={Receipt} delay={240} />
       </div>
 
       {/* ── Revenue Over Time ─────────────────────────────── */}
@@ -171,29 +114,15 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {recentOrders.map((order) => (
-                  <tr key={order.id} className="table-row">
-                    <td className="px-6 py-3.5 font-mono text-boba-muted text-xs">
-                      #{order.id}
-                    </td>
-                    <td className="px-6 py-3.5 text-boba-cream text-xs">
-                      {order.franchise}
-                    </td>
-                    <td className="px-6 py-3.5 text-boba-cream text-xs">
-                      {order.customer}
-                    </td>
-                    <td className="px-6 py-3.5 font-mono text-boba-muted text-xs">
-                      {order.items} item{order.items !== 1 ? "s" : ""}
-                    </td>
-                    <td className="px-6 py-3.5 font-mono font-medium text-boba-cream text-xs">
-                      ${order.total.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-3.5">
-                      <OrderStatusBadge status={order.status} />
-                    </td>
-                    <td className="px-6 py-3.5 font-mono text-boba-subtle text-xs">
-                      {formatTime(order.date)}
-                    </td>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <tr key={i} className="table-row">
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-12" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-24" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-24" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-10" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-14" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-5 w-20 rounded-full" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-14" /></td>
                   </tr>
                 ))}
               </tbody>

@@ -1,36 +1,6 @@
-import { Search, Filter, UserPlus, ArrowRight } from 'lucide-react'
-import { customers, franchises } from '../data/mockData'
+import { Search, Filter, UserPlus } from 'lucide-react'
 import ChartPlaceholder from '../components/ChartPlaceholder'
-import type { LoyaltyTier } from '../types'
-
-interface TierConfig { color: string; dot: string }
-
-const tierConfig: Record<LoyaltyTier, TierConfig> = {
-  Pearl:   { color: 'text-sky-300    bg-sky-300/10',    dot: 'bg-sky-300'    },
-  Gold:    { color: 'text-boba-gold  bg-boba-gold/10',  dot: 'bg-boba-gold'  },
-  Regular: { color: 'text-boba-muted bg-boba-elevated', dot: 'bg-boba-muted' },
-}
-
-const franchiseMap: Record<number, string> = Object.fromEntries(
-  franchises.map(f => [f.id, f.name])
-)
-
-const avatarGradients = [
-  'from-boba-gold to-boba-amber',
-  'from-sky-400 to-blue-500',
-  'from-boba-teal to-emerald-500',
-  'from-purple-400 to-violet-500',
-  'from-rose-400 to-pink-500',
-  'from-amber-400 to-orange-500',
-  'from-lime-400 to-green-500',
-  'from-cyan-400 to-teal-500',
-  'from-indigo-400 to-purple-500',
-  'from-fuchsia-400 to-pink-500',
-]
-
-function getInitials(name: string): string {
-  return name.split(' ').map(n => n[0]).join('').slice(0, 2)
-}
+import Skeleton from '../components/Skeleton'
 
 export default function Customers() {
   return (
@@ -72,48 +42,31 @@ export default function Customers() {
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer, i) => {
-                  const tier      = tierConfig[customer.loyalty_tier]
-                  const gradient  = avatarGradients[i % avatarGradients.length]
-                  const franchise = franchiseMap[customer.franchise_id] ?? '—'
-
-                  return (
-                    <tr key={customer.id} className="table-row group">
-                      <td className="px-6 py-3.5">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0`}>
-                            <span className="text-white font-heading font-bold text-[10px]">{getInitials(customer.name)}</span>
-                          </div>
-                          <div>
-                            <p className="text-boba-cream text-xs font-medium">{customer.name}</p>
-                            <p className="text-boba-muted text-[10px] font-mono">{customer.email}</p>
-                          </div>
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <tr key={i} className="table-row group">
+                    <td className="px-6 py-3.5">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                        <div className="space-y-1.5">
+                          <Skeleton className="h-3 w-24" />
+                          <Skeleton className="h-2.5 w-28" />
                         </div>
-                      </td>
-                      <td className="px-6 py-3.5">
-                        <span className={`badge ${tier.color}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${tier.dot} opacity-70`} />
-                          {customer.loyalty_tier}
-                        </span>
-                      </td>
-                      <td className="px-6 py-3.5 text-boba-muted text-xs">{franchise}</td>
-                      <td className="px-6 py-3.5 font-mono text-boba-cream text-xs">{customer.total_orders}</td>
-                      <td className="px-6 py-3.5 font-mono font-medium text-boba-cream text-xs">${customer.total_spent.toFixed(2)}</td>
-                      <td className="px-6 py-3.5 font-mono text-boba-subtle text-xs">
-                        {new Date(customer.joined_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </td>
-                      <td className="px-6 py-3.5">
-                        <ArrowRight size={12} className="text-boba-subtle opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </td>
-                    </tr>
-                  )
-                })}
+                      </div>
+                    </td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-20" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-8" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-14" /></td>
+                    <td className="px-6 py-3.5"><Skeleton className="h-3 w-16" /></td>
+                    <td className="px-6 py-3.5" />
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
           <div className="px-6 py-3 border-t border-boba-border flex items-center justify-between">
-            <span className="text-boba-subtle text-xs font-mono">Showing {customers.length} of 3,241 members</span>
+            <Skeleton className="h-3 w-40" />
             <button className="text-boba-gold text-xs font-mono hover:text-boba-cream transition-colors">Load more →</button>
           </div>
         </div>
